@@ -1,0 +1,57 @@
+#include <core/GameState.hpp>
+
+GameState* GameState::getInstance() {
+    static GameState instance;
+    return &instance;
+}
+
+GameState::GameState()
+    : result(GameResult::None), money(0), paused(false), showEndModal(false) {}
+
+void GameState::setResult(GameResult newResult) {
+    result = newResult;
+    paused = true;
+    showEndModal = true;
+}
+
+GameResult GameState::getResult() const { return result; }
+
+void GameState::pause() { paused = true; }
+void GameState::setPaused(bool state) { paused = state; }
+bool GameState::isPaused() const { return paused; }
+
+void GameState::showEndGameModal() { showEndModal = true; paused = true; }
+bool GameState::shouldShowEndGameModal() const { return showEndModal; }
+void GameState::hideEndGameModal() { showEndModal = false; }
+
+void GameState::addMoney(int amount) { money += amount; }
+void GameState::decreaseMoney(int amount) { money -= amount;}
+void GameState::setMoney(int amount) { money = amount; }
+int GameState::getMoney() const { return money; }
+void GameState::resetMoney() { money = 0; }
+
+void GameState::reset() {
+    result = GameResult::None;
+    money = 0;
+    paused = false;
+    showEndModal = false;
+}
+
+void GameState::addScore(int p) {
+    score += p;
+}
+
+int GameState::getScore() {
+    return score;
+}
+
+void GameState::setHp(int h) {
+    hp = h;
+}
+
+void GameState::decreaseHp(int h) {
+    hp -= h;
+}
+int GameState::getHp() {
+    return hp;
+}

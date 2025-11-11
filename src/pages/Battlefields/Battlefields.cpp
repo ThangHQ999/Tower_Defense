@@ -6,12 +6,14 @@
 #include <ui/Button.hpp>
 #include <pages/Home.hpp>
 #include <pages/Battle.hpp>
+#include <pages/History.hpp>
 
 Battlefields::~Battlefields() {
     if (texture) {
         SDL_DestroyTexture(texture);
     }
     delete backButton;
+    delete historyButton;
     for (auto* btn : battles) delete btn;
 }
 
@@ -23,19 +25,19 @@ Battlefields::Battlefields(Route& route) : route(route) {
     }
 
     // Load background
-    SDL_Surface* surface = IMG_Load("../assets/battlefields/battlefields.jpg"); 
+    SDL_Surface* surface = IMG_Load("../assets/battlefields/battlefields.png"); 
     if (!surface) {
-        std::cout << "IMG_Load Error: " << IMG_GetError() << std::endl;
     }
     texture = SDL_CreateTextureFromSurface(route.getRenderer(), surface);
     SDL_FreeSurface(surface); 
 
-    // Load nhạc
-    Mix_Music* bgMusic = Mix_LoadMUS("../assets/music/battlefieldsMusic.mp3");
-    if (!bgMusic) {
+    // Load music
+    Mix_Music* music = Mix_LoadMUS("../assets/music/battlefields.mp3");
+    if (!music) {
         std::cerr << "Failed to load music: " << Mix_GetError() << std::endl;
+    } else {
+        route.setBgMusic(music);
     }
-    Mix_PlayMusic(bgMusic, -1);
 
     ButtonStyleConfig styleBtn;
     styleBtn.borderColor = {0, 0, 0, 0};
@@ -51,6 +53,15 @@ Battlefields::Battlefields(Route& route) : route(route) {
         route.setPage(new Home(route));
     });
 
+    historyButton = new Button(route.getRenderer(), 790, 900, 165, 60, "", font);
+
+    SDL_Rect historySrc = {790, 900, 165, 60};
+    // Gắn các thuộc tính cho nút history
+    historyButton->applyStyle(styleBtn);
+    historyButton->setBackgroundTexture(texture, historySrc);
+    historyButton->setOnClick([&]() {
+        route.setPage(new History(route));
+    });
     // Nút các màn chơi
     struct LevelBtn {
         int x, y, w, h;
@@ -82,6 +93,7 @@ Battlefields::Battlefields(Route& route) : route(route) {
 
 void Battlefields::handleEvent(SDL_Event& e) {
     backButton->handleEvent(e);
+    historyButton->handleEvent(e);
     for (auto* btn : battles) btn->handleEvent(e);
 }
 
@@ -91,6 +103,7 @@ void Battlefields::render(SDL_Renderer* renderer) {
     
     // Vẽ nút
     backButton->render();
+    historyButton->render();
     for (auto* btn : battles) btn->render();
 
     SDL_RenderPresent(renderer);

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <route/Route.hpp>
 #include <pages/Page.hpp>
 #include <ui/Button.hpp>
@@ -11,25 +12,61 @@
 #include <tower/ArrowManager.hpp>
 #include <core/Map.hpp>
 #include <enemy/EnemyManager.hpp>
+#include <core/GameState.hpp>
+#include <ui/Modal.hpp>
+#include <vector>
 
-class Battle: public Page {
+class Battle : public Page {
 private:
+    // Time
+    Uint32 startTime = 0;
+    Uint32 endTime = 0;
+    SDL_Texture* timeTexture;
+    SDL_Rect timeRect;
+    bool gameEnded = false;
+
+    // Money
+    SDL_Texture* moneyTexture = nullptr;
+    SDL_Rect moneyRect;
+    int lastMoney = -1;
+
+    // HP
+    SDL_Texture* hpTexture = nullptr;
+    SDL_Rect hpRect;
+    int lastHP = -1; 
+
+    Modal* endGameModal = nullptr;
+    GameState* gameState = nullptr;
     Route& route;
-    SDL_Texture* texture;
-    SDL_Rect* rect;
-    Button* backButton;
-    TowerManager* towerManager;
-    std::vector<Tower* > towers;
-    std::vector<Enemy*> enemies;
-    ArrowManager* arrowManager;  
-    SDL_Texture* arrowTexture;
-    Map* map;
-    EnemyManager* enemyManager;
+    SDL_Texture* texture = nullptr;
+    SDL_Rect* rect = nullptr;
+    Button* backButton = nullptr;
+    Button* shopButton = nullptr;
+    Button* destroyButton = nullptr;
+    TowerManager* towerManager = nullptr;
+    ArrowManager* arrowManager = nullptr;  
+    SDL_Texture* arrowTexture = nullptr;
+    Map* map = nullptr;
+    EnemyManager* enemyManager = nullptr;
+    TTF_Font* font = nullptr;
     int level;
+    int maxLevel = 4;
+    bool isShopVisible;
 public:
     Battle(Route& route, int level);
     ~Battle();
+
     void render(SDL_Renderer* renderer) override;
     void handleEvent(SDL_Event& e) override;
     void update() override;
+
+    void updateMoneyTexture(SDL_Renderer* renderer, int money);
+    void updateHPTexture(SDL_Renderer* renderer, int hp);
+    void updateTimeTexture(SDL_Renderer* renderer);
+    void saveHistory(const std::string& status, int score);
+
+    void toggleShop() {
+        isShopVisible = !isShopVisible;
+    }
+    TextLine createTextLine(const std::string& text, int x, int y, SDL_Color color);
 };

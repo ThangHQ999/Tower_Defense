@@ -14,19 +14,7 @@
 #include <pages/Home.hpp>
 #include <pages/Page.hpp>
 
-Route* route = nullptr;
-
-
-std::vector<std::vector<int>> level = {
-    {2,2,2,2,2,1,2,2,2,2,2,2},
-    {2,2,2,2,2,2,2,2,2,2,2,2},
-    {2,2,2,2,2,2,2,2,2,2,2,2},
-    {2,2,2,2,2,2,2,2,2,2,2,2},
-    {2,2,2,2,2,2,2,2,2,2,2,2},
-    {2,2,2,2,2,2,2,2,2,2,2,2}
-};
-
-Game::Game() : isRunning(false) {}
+Game::Game() : isRunning(false), gameRoute(nullptr) {}
 
 Game::~Game() {
     ShutDown();
@@ -42,20 +30,20 @@ bool Game::Initialize(const char* title, int width, int height, bool fullScreen 
         return false;
     }
 
-    SDL_Init(SDL_INIT_AUDIO);
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         std::cerr << "SDL_mixer error: " << Mix_GetError() << std::endl;
-        return 1;
+        return false;
     }
 
     Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE;
     if (fullScreen) flags = SDL_WINDOW_FULLSCREEN;
-    //Tạo ra cửa sổ (window)
+    // Tạo ra cửa sổ (window)
     window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
     if (!window) {
         SDL_Quit();
         return false;
     }
+    // Load icon desktop cho game
     SDL_Surface* icon = IMG_Load("../assets/icon/icon.png");
     if (!icon) {
         std::cerr << "Failed to load icon: " << IMG_GetError() << std::endl;
@@ -64,22 +52,19 @@ bool Game::Initialize(const char* title, int width, int height, bool fullScreen 
         SDL_FreeSurface(icon);
     }
 
-    //Tạo ra bút vẽ (renderer): dùng để vẽ hình ảnh, text, màu nền, texture,… lên cửa sổ.
+    // Tạo ra bút vẽ (renderer): dùng để vẽ hình ảnh, text, màu nền, texture,… lên cửa sổ.
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (!renderer) {
         SDL_Quit();
         return false;
     }
-    
-    TTF_Font* font = TTF_OpenFont("../assets/fonts/Roboto-Regular.ttf", 24);
-    setFont(font);
 
-    if (!font) {
-        std::cerr << "Failed to load font: " << TTF_GetError() << std::endl;
-        return false;
+    // SetCursor
+    gameRoute = new Route(renderer);
+    if (gameRoute) {
+        gameRoute->SetCursor("../assets/cursors/default_cursor.png", 0, 0);
     }
-
-    route = new Route(renderer);
+    
     isRunning = true;
     return true;
 }
@@ -99,18 +84,22 @@ void Game::Run() {
                 SDL_GetMouseState(&x, &y);
                 printf("Click tại: (%d, %d)\n", x, y);
             }
-            route->handleEvent(e);
+            if (gameRoute) gameRoute->handleEvent(e);
         } 
-        route->update();
+        if (gameRoute) gameRoute->update();
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderClear(renderer);
-        route->render();
+        if (gameRoute) gameRoute->render();
         SDL_RenderPresent(renderer);
         SDL_Delay(16);
     }
 }
 
 void Game::ShutDown() {
+    if (gameRoute) {
+        delete gameRoute;
+        gameRoute = nullptr;
+    }
     if (renderer) {
         SDL_DestroyRenderer(renderer);
         renderer = nullptr;
@@ -119,18 +108,7 @@ void Game::ShutDown() {
         SDL_DestroyWindow(window);
         window = nullptr;
     }
-    if (font) {
-        TTF_CloseFont(font);
-    }
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();
-}
-
-void Game::setFont(TTF_Font* currentFont) {
-    font = currentFont;
-}
-
-void Game::setBgMusic(Mix_Music* music) {
-    bgMusic = music;
 }

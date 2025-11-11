@@ -9,12 +9,14 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/Admin/TowerDefense2/src/core/Game.cpp" "CMakeFiles/TowerDefense.dir/src/core/Game.cpp.obj" "gcc" "CMakeFiles/TowerDefense.dir/src/core/Game.cpp.obj.d"
+  "C:/Users/Admin/TowerDefense2/src/core/GameState.cpp" "CMakeFiles/TowerDefense.dir/src/core/GameState.cpp.obj" "gcc" "CMakeFiles/TowerDefense.dir/src/core/GameState.cpp.obj.d"
   "C:/Users/Admin/TowerDefense2/src/core/Map.cpp" "CMakeFiles/TowerDefense.dir/src/core/Map.cpp.obj" "gcc" "CMakeFiles/TowerDefense.dir/src/core/Map.cpp.obj.d"
   "C:/Users/Admin/TowerDefense2/src/enemy/Enemy.cpp" "CMakeFiles/TowerDefense.dir/src/enemy/Enemy.cpp.obj" "gcc" "CMakeFiles/TowerDefense.dir/src/enemy/Enemy.cpp.obj.d"
   "C:/Users/Admin/TowerDefense2/src/enemy/EnemyManager.cpp" "CMakeFiles/TowerDefense.dir/src/enemy/EnemyManager.cpp.obj" "gcc" "CMakeFiles/TowerDefense.dir/src/enemy/EnemyManager.cpp.obj.d"
   "C:/Users/Admin/TowerDefense2/src/main.cpp" "CMakeFiles/TowerDefense.dir/src/main.cpp.obj" "gcc" "CMakeFiles/TowerDefense.dir/src/main.cpp.obj.d"
   "C:/Users/Admin/TowerDefense2/src/pages/Battle/Battle.cpp" "CMakeFiles/TowerDefense.dir/src/pages/Battle/Battle.cpp.obj" "gcc" "CMakeFiles/TowerDefense.dir/src/pages/Battle/Battle.cpp.obj.d"
   "C:/Users/Admin/TowerDefense2/src/pages/Battlefields/Battlefields.cpp" "CMakeFiles/TowerDefense.dir/src/pages/Battlefields/Battlefields.cpp.obj" "gcc" "CMakeFiles/TowerDefense.dir/src/pages/Battlefields/Battlefields.cpp.obj.d"
+  "C:/Users/Admin/TowerDefense2/src/pages/History/History.cpp" "CMakeFiles/TowerDefense.dir/src/pages/History/History.cpp.obj" "gcc" "CMakeFiles/TowerDefense.dir/src/pages/History/History.cpp.obj.d"
   "C:/Users/Admin/TowerDefense2/src/pages/home/Home.cpp" "CMakeFiles/TowerDefense.dir/src/pages/home/Home.cpp.obj" "gcc" "CMakeFiles/TowerDefense.dir/src/pages/home/Home.cpp.obj.d"
   "C:/Users/Admin/TowerDefense2/src/route/Route.cpp" "CMakeFiles/TowerDefense.dir/src/route/Route.cpp.obj" "gcc" "CMakeFiles/TowerDefense.dir/src/route/Route.cpp.obj.d"
   "C:/Users/Admin/TowerDefense2/src/tower/Arrow.cpp" "CMakeFiles/TowerDefense.dir/src/tower/Arrow.cpp.obj" "gcc" "CMakeFiles/TowerDefense.dir/src/tower/Arrow.cpp.obj.d"

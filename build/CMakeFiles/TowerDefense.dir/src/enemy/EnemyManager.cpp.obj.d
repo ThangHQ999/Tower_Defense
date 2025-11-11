@@ -290,28 +290,14 @@ CMakeFiles/TowerDefense.dir/src/enemy/EnemyManager.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_memory_defs.h \
  C:/msys64/ucrt64/include/c++/15.2.0/pstl/execution_defs.h \
  C:/Users/Admin/TowerDefense2/include/enemy/Enemy.hpp \
+ C:/Users/Admin/TowerDefense2/include/core/GameState.hpp \
+ C:/msys64/ucrt64/include/c++/15.2.0/cstdint \
  C:/msys64/ucrt64/include/c++/15.2.0/algorithm \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_algo.h \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/algorithmfwd.h \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_heap.h \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/uniform_int_dist.h \
  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_algorithm_defs.h \
- C:/msys64/ucrt64/include/c++/15.2.0/cmath \
- C:/msys64/ucrt64/include/math.h \
- C:/msys64/ucrt64/include/c++/15.2.0/bits/specfun.h \
- C:/msys64/ucrt64/include/c++/15.2.0/limits \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/gamma.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/special_function_util.h \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/bessel_function.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/beta_function.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/ell_integral.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/exp_integral.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/hypergeometric.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/legendre_function.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/modified_bessel_func.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_hermite.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_laguerre.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/riemann_zeta.tcc \
  C:/msys64/ucrt64/include/c++/15.2.0/iostream \
  C:/msys64/ucrt64/include/c++/15.2.0/ostream \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream.h \

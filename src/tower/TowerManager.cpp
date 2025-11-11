@@ -1,11 +1,17 @@
 #include <tower/TowerManager.hpp>
 #include <iostream>
+#include <algorithm>
+#include <tower/Tower.hpp>
 
-TowerManager::TowerManager(SDL_Renderer* renderer, TTF_Font* font)
-    : renderer(renderer), font(font) {}
+TowerManager::TowerManager(SDL_Renderer* renderer, TTF_Font* font, Route& route)
+    : renderer(renderer), font(font), route(route) {}
 
 TowerManager::~TowerManager() {
     for (auto* btn : towerButtons) delete btn;
+    for (auto* tower : towers) {
+        delete tower;
+    }
+    towers.clear();
 }
 
 void TowerManager::setFrameTexture(SDL_Texture* texture) {
@@ -40,7 +46,7 @@ void TowerManager::loadTowers(const std::vector<std::string>& towerImages) {
         btn->setBackgroundTexture(tex);
 
         btn->setOnClick([this, i]() {
-            selectedTowerIndex = i;
+            this->setSelectedTower(i);
         });
 
         towerButtons.push_back(btn);
@@ -54,6 +60,14 @@ void TowerManager::handleEvent(SDL_Event& e) {
 }
 
 void TowerManager::render() {
+    for (Tower* tower : towers) {
+        if (tower) {
+            tower->render(renderer);
+        }
+    }
+}
+
+void TowerManager::renderTowerButton() {
     for (int i = 0; i < (int)towerButtons.size(); i++) {
         towerButtons[i]->render();
 
@@ -62,9 +76,62 @@ void TowerManager::render() {
                               towerButtons[i]->getWidth(), towerButtons[i]->getHeight() };
             SDL_RenderCopy(renderer, frameTexture, nullptr, &rect);
         }
+
+        // Vẽ giá tiền dưới nút chọn
+        if (i < (int)prices.size()) {
+            std::string priceText = std::to_string(prices[i]);
+            SDL_Color white = {255, 255, 255, 255};
+            SDL_Surface* textSurface = TTF_RenderText_Solid(font, priceText.c_str(), white);
+            if (textSurface) {
+                SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+                if (textTexture) {
+                    int textX = towerButtons[i]->getX() + towerButtons[i]->getWidth() / 2 - textSurface->w / 2;
+                    int textY = towerButtons[i]->getY() + towerButtons[i]->getHeight() - 40;
+                    SDL_Rect dstRect = { textX, textY, textSurface->w, textSurface->h };
+                    SDL_RenderCopy(renderer, textTexture, nullptr, &dstRect);
+                    SDL_DestroyTexture(textTexture);
+                }
+                SDL_FreeSurface(textSurface);
+            }
+        }
     }
 }
 
 int TowerManager::getSelectedTower() const {
     return selectedTowerIndex;
+}
+
+void TowerManager::setSelectedTower(int index) {
+    if (index == selectedTowerIndex) {
+        selectedTowerIndex = -1;
+    } else {
+        selectedTowerIndex = index;
+    }
+    if (selectedTowerIndex != -1) {
+        route.SetCursor("../assets/cursors/build_hammer.png", 16, 16);
+    } else {
+        route.SetCursor("../assets/cursors/default_cursor.png", 0, 0); 
+    }
+}
+
+void TowerManager::addTower(Tower* tower) {
+    if (tower) {
+        towers.push_back(tower);
+    }
+}
+
+void TowerManager::removeTower(Tower* tower) {
+    auto it = std::find(towers.begin(), towers.end(), tower);
+    if (it != towers.end()) {
+        delete *it;              
+        towers.erase(it);        
+    }
+}
+
+std::vector<Tower*> TowerManager::getTowers() {
+    return towers;
+}
+
+void TowerManager::setPrices(const std::vector<int>& newPrices) {
+    prices = newPrices;
 }

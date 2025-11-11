@@ -11,9 +11,10 @@ void ArrowManager::setArrowTexture(SDL_Texture* tex) {
     arrowTexture = tex;
 }
 
-void ArrowManager::spawnArrow(SDL_Point startPos, Enemy* target) {
+// Spawn ra đạn
+void ArrowManager::spawnArrow(SDL_Point startPos, Enemy* target, float damage) {
     if (arrowTexture && target) {
-        Arrow* newArrow = new Arrow(arrowTexture, startPos, target);
+        Arrow* newArrow = new Arrow(arrowTexture, startPos, target, damage);
         arrows.push_back(newArrow);
     }
 }
@@ -23,6 +24,7 @@ void ArrowManager::update(float deltaTime) {
         arrow->update(deltaTime);
     }
 
+    // Xóa bỏ mũi tên khi bắn trúng kẻ địch
     arrows.erase(std::remove_if(arrows.begin(), arrows.end(),
         [](Arrow* arrow) {
             if (!arrow->isActive()) {
