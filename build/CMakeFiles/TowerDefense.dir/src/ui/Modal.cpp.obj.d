@@ -331,4 +331,6 @@ CMakeFiles/TowerDefense.dir/src/ui/Modal.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream.tcc \
  C:/msys64/ucrt64/include/c++/15.2.0/istream \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/istream.tcc \
- C:/Users/Admin/TowerDefense2/include/SDL2/SDL_image.h
+ C:/Users/Admin/TowerDefense2/include/SDL2/SDL_image.h \
+ C:/Users/Admin/TowerDefense2/include/types/Text.hpp \
+ C:/Users/Admin/TowerDefense2/include/SDL2/SDL_render.h

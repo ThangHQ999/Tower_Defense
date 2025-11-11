@@ -356,4 +356,6 @@ CMakeFiles/TowerDefense.dir/src/core/Game.cpp.obj: \
  C:/Users/Admin/TowerDefense2/include/tile/Tile.hpp \
  C:/Users/Admin/TowerDefense2/include/ui/Modal.hpp \
  C:/Users/Admin/TowerDefense2/include/ui/Button.hpp \
+ C:/Users/Admin/TowerDefense2/include/types/Text.hpp \
+ C:/Users/Admin/TowerDefense2/include/SDL2/SDL_render.h \
  C:/Users/Admin/TowerDefense2/include/pages/Home.hpp

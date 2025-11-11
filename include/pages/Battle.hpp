@@ -41,6 +41,8 @@ private:
     SDL_Texture* texture = nullptr;
     SDL_Rect* rect = nullptr;
     Button* backButton = nullptr;
+    Button* shopButton = nullptr;
+    Button* destroyButton = nullptr;
     TowerManager* towerManager = nullptr;
     ArrowManager* arrowManager = nullptr;  
     SDL_Texture* arrowTexture = nullptr;
@@ -49,7 +51,7 @@ private:
     TTF_Font* font = nullptr;
     int level;
     int maxLevel = 4;
-
+    bool isShopVisible;
 public:
     Battle(Route& route, int level);
     ~Battle();
@@ -62,4 +64,9 @@ public:
     void updateHPTexture(SDL_Renderer* renderer, int hp);
     void updateTimeTexture(SDL_Renderer* renderer);
     void saveHistory(const std::string& status, int score);
+
+    void toggleShop() {
+        isShopVisible = !isShopVisible;
+    }
+    TextLine createTextLine(const std::string& text, int x, int y, SDL_Color color);
 };

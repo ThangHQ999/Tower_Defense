@@ -15,8 +15,6 @@ void GameState::setResult(GameResult newResult) {
 }
 
 GameResult GameState::getResult() const { return result; }
-bool GameState::isWin() const { return result == GameResult::Win; }
-bool GameState::isLose() const { return result == GameResult::Lose; }
 
 void GameState::pause() { paused = true; }
 void GameState::setPaused(bool state) { paused = state; }

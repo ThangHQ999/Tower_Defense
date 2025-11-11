@@ -112,7 +112,7 @@ void EnemyManager::update(float deltaTime) {
         gameState->addScore(totalScore);
     }
 
-    // === Xóa enemy đã chết hoặc đến đích ===
+    // Xóa enemy đã chết hoặc đến đích
     enemies.erase(
         std::remove_if(enemies.begin(), enemies.end(),
             [this](const std::unique_ptr<Enemy>& e) {
@@ -126,7 +126,6 @@ void EnemyManager::update(float deltaTime) {
         enemies.end()
     );
 }
-
 
 void EnemyManager::render() {
     for (auto& e : enemies) {

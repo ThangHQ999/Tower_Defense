@@ -3,13 +3,28 @@
 #include <route/Route.hpp>
 #include <ui/Button.hpp>
 #include <core/GameState.hpp>
+#include <types/Text.hpp>
+
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <ctime>
 #include <iomanip>
 #include <sstream> 
+#include <string>
+#include <vector>
 
+// Constant
+const std::vector<std::string>& links = {
+    "../assets/tower/woodTower.png",
+    "../assets/tower/stoneTower.png",
+    "../assets/tower/magicTower.png",
+    "../assets/tower/machineTower.png"
+};
+std::vector<int> prices = {100, 200, 300, 400};
+std::vector<float> damages = {30.0f, 40.0f, 50.0f, 60.0f};
+
+// Hàm lấy thời gian ở Việt Nam
 std::string getVietnamTime() {
     std::time_t now = std::time(nullptr);
     now += 7 * 3600;                     
@@ -41,6 +56,7 @@ Battle::~Battle() {
     delete enemyManager;
     delete endGameModal;
     delete backButton;
+    delete shopButton;
     delete map;
 
     Arrow::freeSound();
@@ -52,15 +68,24 @@ Battle::Battle(Route& route, int level)
       texture(nullptr), arrowTexture(nullptr),
       arrowManager(nullptr), towerManager(nullptr),
       enemyManager(nullptr), endGameModal(nullptr),
-      backButton(nullptr), map(nullptr)
+      backButton(nullptr), shopButton(nullptr), map(nullptr), 
+      isShopVisible(false)
 {
-    // ===== TẢI FONT =====
+    // Load music
+    Mix_Music* music = Mix_LoadMUS("../assets/music/battle.mp3");
+    if (!music) {
+        std::cerr << "Failed to load music: " << Mix_GetError() << std::endl;
+    } else {
+        route.setBgMusic(music);
+    }
+
+    // TẢI FONT
     font = TTF_OpenFont("../assets/fonts/Jersey15-Regular.ttf", 45);
     if (!font) {
         std::cerr << "TTF_OpenFont Error: " << TTF_GetError() << std::endl;
     }
 
-    // ===== TẢI NỀN BẢN ĐỒ =====
+    // TẢI NỀN BẢN ĐỒ
     std::string pathMap = "../assets/maps/map" + std::to_string(level) + ".png";
     SDL_Surface* surface = IMG_Load(pathMap.c_str());
     if (!surface) {
@@ -70,13 +95,13 @@ Battle::Battle(Route& route, int level)
         SDL_FreeSurface(surface);
     }
 
-    // ===== ÂM THANH =====
+    // ÂM THANH
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         std::cerr << "Mix_OpenAudio Error: " << Mix_GetError() << std::endl;
     }
     Arrow::loadHitSound("../assets/music/arrow_hit.mp3");
 
-    // ===== NÚT QUAY LẠI =====
+    // NÚT QUAY LẠI
     ButtonStyleConfig styleBtn;
     styleBtn.borderColor = {0, 0, 0, 0};
     backButton = new Button(route.getRenderer(), 65, 900, 165, 60, "", font);
@@ -87,31 +112,46 @@ Battle::Battle(Route& route, int level)
         route.setPage(new Battlefields(route));
     });
 
-    // ===== MODAL KẾT THÚC GAME =====
+    // NÚT SHOP
+    shopButton = new Button(route.getRenderer(), 790, 915, 165, 60, "", font);
+    SDL_Rect shopSrc = {790, 915, 165, 60};
+    shopButton->applyStyle(styleBtn);
+    shopButton->setBackgroundTexture(texture, shopSrc);
+    shopButton->setOnClick([this, &route]() {
+        toggleShop();
+    });
+
+    // NÚT Destroy
+    destroyButton = new Button(route.getRenderer(), 850, 800, 100, 100, "", font);
+    SDL_Texture* destroyTexture = nullptr;
+    SDL_Surface* destroySurface = IMG_Load("../assets/cursors/destroy_hammer_button.png");
+    destroyTexture = SDL_CreateTextureFromSurface(route.getRenderer(), destroySurface);
+    destroyButton->applyStyle(styleBtn);
+    destroyButton->setBackgroundTexture(destroyTexture);
+    destroyButton->setOnClick([this, &route]() {
+        // Tower* selectTower;
+        // towerManager->removeTower(selectTower);
+    });
+
+    // MODAL KẾT THÚC GAME
     endGameModal = new Modal(route.getRenderer(), font, "", false, 500, 500);
     endGameModal->setOnClose([this, &route]() {
         route.setPage(new Battlefields(route));
     });
     endGameModal->setVisible(false);
 
-    // ===== TOWER MANAGER =====
+    // TOWER MANAGER
     towerManager = new TowerManager(route.getRenderer(), font, route);
     SDL_Texture* frameTex = IMG_LoadTexture(route.getRenderer(), "../assets/tower/frameTower.png");
     towerManager->setFrameTexture(frameTex);
-    towerManager->loadTowers({
-        "../assets/tower/woodTower.png",
-        "../assets/tower/stoneTower.png",
-        "../assets/tower/magicTower.png",
-        "../assets/tower/machineTower.png"
-    });
-    std::vector<int> prices = {100, 200, 300, 400};
+    towerManager->loadTowers(links);
     towerManager->setPrices(prices);
-    // ===== ARROW MANAGER =====
+    // ARROW MANAGER
     arrowManager = new ArrowManager();
     arrowTexture = IMG_LoadTexture(route.getRenderer(), "../assets/bullet/bullet.png");
     arrowManager->setArrowTexture(arrowTexture);
 
-    // ===== MAP MANAGER =====
+    // MAP MANAGER
     std::string pathMapManager = "../assets/maps/map" + std::to_string(level) + ".png";
     map = new Map(route.getRenderer(), pathMapManager, 128, 128, 8);
 
@@ -130,7 +170,7 @@ Battle::Battle(Route& route, int level)
         mapFile.close();
     }
 
-    // ===== LOAD ROUTE =====
+    // LOAD ROUTE
     std::string pathRoute = "../assets/route/route" + std::to_string(level) + ".txt";
     std::ifstream routeFile(pathRoute);
     std::vector<SDL_Point> routePoints;
@@ -157,7 +197,7 @@ Battle::Battle(Route& route, int level)
     gameState->setMoney(startingMoney);
     gameState->setHp(startingHP);
 
-    // ===== LOAD WAVES =====
+    // LOAD WAVES
     std::string path = "../assets/waves/waves" + std::to_string(level) + ".txt";
 
     std::ifstream waveFile(path);
@@ -177,7 +217,7 @@ Battle::Battle(Route& route, int level)
         waveFile.close();
     }
 
-    // ===== TEXTURE KẺ ĐỊCH =====
+    // TEXTURE KẺ ĐỊCH
     std::string pathEnemy = "../assets/enemy/enemy" + std::to_string(level) + ".png";
     SDL_Surface* enemySurface = IMG_Load(pathEnemy.c_str());
     if (!enemySurface) {
@@ -188,13 +228,13 @@ Battle::Battle(Route& route, int level)
         enemyManager->setEnemyTexture(enemyTexture);
     }
 
-    // ===== BẮT ĐẦU GAME =====
+    // BẮT ĐẦU GAME
     enemyManager->start();
     GameState::getInstance()->pause(); 
     GameState::getInstance()->setResult(GameResult::None);
     GameState::getInstance()->setPaused(false);
 
-    // ===== BẮT ĐẦU GHI THỜI GIAN =====
+    // BẮT ĐẦU GHI THỜI GIAN
     startTime = SDL_GetTicks();
 }
 
@@ -206,6 +246,8 @@ void Battle::handleEvent(SDL_Event& e) {
     }
 
     if (backButton) backButton->handleEvent(e);
+    if (shopButton) shopButton->handleEvent(e);
+    if (destroyButton) destroyButton->handleEvent(e);
     if (towerManager) towerManager->handleEvent(e);
 
     if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT) {
@@ -217,16 +259,8 @@ void Battle::handleEvent(SDL_Event& e) {
 
         if (clicked->getId() == 1 && !clicked->getHasTower()) {
             int selectTower = towerManager->getSelectedTower();
-            std::vector<int> prices = {100, 200, 300, 400};
-            std::vector<float> damages = {30.0f, 40.0f, 50.0f, 60.0f};
             auto gameState = GameState::getInstance();
             int currentMoney = gameState->getMoney();
-            static const std::vector<std::string> links = {
-                "../assets/tower/woodTower.png",
-                "../assets/tower/stoneTower.png",
-                "../assets/tower/magicTower.png",
-                "../assets/tower/machineTower.png"
-            };
             
             if (selectTower >= 0 && selectTower < (int)links.size() && currentMoney>=prices[selectTower]) {
                 SDL_Rect dest = clicked->getDestRect();
@@ -353,12 +387,15 @@ void Battle::updateTimeTexture(SDL_Renderer* renderer) {
 
 void Battle::render(SDL_Renderer* renderer) {
     SDL_RenderCopy(renderer, texture, nullptr, nullptr);
-
+    
     if (map) map->render();
     if (arrowManager) arrowManager->render(renderer);
     if (enemyManager) enemyManager->render();
     if (backButton) backButton->render();
+    if (shopButton) shopButton->render();
+    // if (destroyButton) destroyButton->render();
     if (towerManager) towerManager->render();
+    if (towerManager && isShopVisible) towerManager->renderTowerButton();
 
     if (moneyTexture) {
         SDL_RenderCopy(renderer, moneyTexture, nullptr, &moneyRect);
@@ -401,21 +438,28 @@ void Battle::update() {
     for (auto* tower : towers) {
         tower->update(deltaTime, enemiesView, arrowManager);
     }
-    
-    // --- SỬA ĐỔI: Kiểm tra thắng/thua bằng các hàm mới ---
+
     if (gameState->getResult() == GameResult::None) {
         // Điều kiện thua
         if (enemyManager->isGameOver()) {
+            Mix_Music* music = Mix_LoadMUS("../assets/music/defeat.mp3");
+            if (!music) {
+                std::cerr << "Failed to load music: " << Mix_GetError() << std::endl;
+            } else {
+                route.setBgMusic(music);
+            }
+
             towerManager->setSelectedTower(-1);
             gameState->setResult(GameResult::Lose);
             int score = gameState->getScore();
-            std::cout<< score << "\n";
             saveHistory("Defeat", score);
             if (endGameModal) {
                 Route* routePtr = &route;
 
                 SDL_Texture* modalBg = IMG_LoadTexture(route.getRenderer(), "../assets/data/defeat.png");
                 endGameModal->setBackgroundTexture(modalBg);
+
+                // Nút cho modal
                 Button* retryBtn = new Button(route.getRenderer(), 325, 745, 140, 40, "", font);
                 Button* menuBtn = new Button(route.getRenderer(), 470, 745, 140, 40, "", font);
                 Button* exitBtn = new Button(route.getRenderer(), 615, 745, 140, 40, "", font);
@@ -434,16 +478,27 @@ void Battle::update() {
                 endGameModal->addButton(retryBtn);
                 endGameModal->addButton(menuBtn);
                 endGameModal->addButton(exitBtn);
+
+                // Text cho modal
+                std::string scoreStr = "" + std::to_string(score);
+                TextLine scoreText = createTextLine(
+                    scoreStr, 
+                    540, 
+                    620, 
+                    { 255, 255, 255, 255 }
+                );
+                endGameModal->clearTextLines();
+                endGameModal->addTextLine(scoreText);
+
                 endGameModal->setVisible(true);
             }
             gameState->pause();
-        } 
+        }
         // Điều kiện thắng
         else if (enemyManager->isFinished()) {
             towerManager->setSelectedTower(-1);
             gameState->setResult(GameResult::Win);
             int score = gameState->getScore();
-            std::cout<< score << "\n";
             saveHistory("Win", score);
             if (endGameModal) {
                 Route* routePtr = &route;
@@ -470,6 +525,17 @@ void Battle::update() {
                 endGameModal->addButton(nextLevelBtn);
                 endGameModal->addButton(retryBtn);
                 endGameModal->addButton(menuBtn);
+
+                std::string scoreStr = "" + std::to_string(score);
+                TextLine scoreText = createTextLine(
+                    scoreStr, 
+                    490, 
+                    570, 
+                    { 255, 255, 255, 255 }
+                );
+                endGameModal->clearTextLines();
+                endGameModal->addTextLine(scoreText);
+
                 endGameModal->setVisible(true);
             }
             gameState->pause();
@@ -494,4 +560,28 @@ void Battle::saveHistory(const std::string& status, int score) {
          << score << "\n";
 
     file.close();
+}
+
+TextLine Battle::createTextLine(const std::string& text, int x, int y, SDL_Color color) {
+    TextLine tl;
+    tl.text = text;
+    tl.color = color;
+    tl.texture = nullptr;
+
+    SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
+    if (surface) {
+        tl.texture = SDL_CreateTextureFromSurface(route.getRenderer(), surface);
+        
+        tl.rect.x = x;
+        tl.rect.y = y;
+        tl.rect.w = surface->w;
+        tl.rect.h = surface->h;
+
+        SDL_FreeSurface(surface);
+    } else {
+        std::cerr << "TTF_RenderText_Solid Error: " << TTF_GetError() << std::endl;
+        tl.rect = {x, y, 0, 0};
+    }
+
+    return tl;
 }

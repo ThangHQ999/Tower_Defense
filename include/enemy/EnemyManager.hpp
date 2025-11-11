@@ -5,8 +5,6 @@
 #include <memory>
 #include <enemy/Enemy.hpp>
 #include <core/GameState.hpp>
-
-// Dùng lại struct Wave của bạn, rất hợp lý
 struct Wave {
     int enemyCount;
     float spawnInterval;

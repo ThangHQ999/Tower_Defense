@@ -60,6 +60,14 @@ void TowerManager::handleEvent(SDL_Event& e) {
 }
 
 void TowerManager::render() {
+    for (Tower* tower : towers) {
+        if (tower) {
+            tower->render(renderer);
+        }
+    }
+}
+
+void TowerManager::renderTowerButton() {
     for (int i = 0; i < (int)towerButtons.size(); i++) {
         towerButtons[i]->render();
 
@@ -85,12 +93,6 @@ void TowerManager::render() {
                 }
                 SDL_FreeSurface(textSurface);
             }
-        }
-    }
-
-    for (Tower* tower : towers) {
-        if (tower) {
-            tower->render(renderer);
         }
     }
 }

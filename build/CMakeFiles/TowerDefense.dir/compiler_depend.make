@@ -54,6 +54,7 @@ CMakeFiles/TowerDefense.dir/src/core/Game.cpp.obj: C:/Users/Admin/TowerDefense2/
   C:/Users/Admin/TowerDefense2/include/pages/Page.hpp \
   C:/Users/Admin/TowerDefense2/include/route/Route.hpp \
   C:/Users/Admin/TowerDefense2/include/tile/Tile.hpp \
+  C:/Users/Admin/TowerDefense2/include/types/Text.hpp \
   C:/Users/Admin/TowerDefense2/include/ui/Button.hpp \
   C:/Users/Admin/TowerDefense2/include/ui/Modal.hpp \
   C:/msys64/ucrt64/include/_mingw.h \
@@ -1866,6 +1867,7 @@ CMakeFiles/TowerDefense.dir/src/pages/Battle/Battle.cpp.obj: C:/Users/Admin/Towe
   C:/Users/Admin/TowerDefense2/include/tower/ArrowManager.hpp \
   C:/Users/Admin/TowerDefense2/include/tower/Tower.hpp \
   C:/Users/Admin/TowerDefense2/include/tower/TowerManager.hpp \
+  C:/Users/Admin/TowerDefense2/include/types/Text.hpp \
   C:/Users/Admin/TowerDefense2/include/ui/Button.hpp \
   C:/Users/Admin/TowerDefense2/include/ui/Modal.hpp \
   C:/msys64/ucrt64/include/_mingw.h \
@@ -2265,6 +2267,7 @@ CMakeFiles/TowerDefense.dir/src/pages/Battlefields/Battlefields.cpp.obj: C:/User
   C:/Users/Admin/TowerDefense2/include/tower/ArrowManager.hpp \
   C:/Users/Admin/TowerDefense2/include/tower/Tower.hpp \
   C:/Users/Admin/TowerDefense2/include/tower/TowerManager.hpp \
+  C:/Users/Admin/TowerDefense2/include/types/Text.hpp \
   C:/Users/Admin/TowerDefense2/include/ui/Button.hpp \
   C:/Users/Admin/TowerDefense2/include/ui/Modal.hpp \
   C:/msys64/ucrt64/include/_mingw.h \
@@ -5423,6 +5426,7 @@ CMakeFiles/TowerDefense.dir/src/ui/Modal.cpp.obj: C:/Users/Admin/TowerDefense2/s
   C:/Users/Admin/TowerDefense2/include/SDL2/SDL_video.h \
   C:/Users/Admin/TowerDefense2/include/SDL2/begin_code.h \
   C:/Users/Admin/TowerDefense2/include/SDL2/close_code.h \
+  C:/Users/Admin/TowerDefense2/include/types/Text.hpp \
   C:/Users/Admin/TowerDefense2/include/ui/Button.hpp \
   C:/Users/Admin/TowerDefense2/include/ui/Modal.hpp \
   C:/msys64/ucrt64/include/_mingw.h \
@@ -5909,6 +5913,10 @@ C:/Users/Admin/TowerDefense2/include/SDL2/close_code.h:
 
 C:/Users/Admin/TowerDefense2/include/ui/Button.hpp:
 
+C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tree.h:
+
+C:/Users/Admin/TowerDefense2/include/types/Text.hpp:
+
 C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/avx10_2convertintrin.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/streambuf.tcc:
@@ -6126,8 +6134,6 @@ C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_raw_storage_iter.h:
 C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/f16cintrin.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tempbuf.h:
-
-C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tree.h:
 
 C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/prfchiintrin.h:
 

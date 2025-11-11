@@ -31,12 +31,13 @@ Battlefields::Battlefields(Route& route) : route(route) {
     texture = SDL_CreateTextureFromSurface(route.getRenderer(), surface);
     SDL_FreeSurface(surface); 
 
-    // Load nhạc
-    // Mix_Music* bgMusic = Mix_LoadMUS("../assets/music/battlefieldsMusic.mp3");
-    // if (!bgMusic) {
-    //     std::cerr << "Failed to load music: " << Mix_GetError() << std::endl;
-    // }
-    // Mix_PlayMusic(bgMusic, -1);
+    // Load music
+    Mix_Music* music = Mix_LoadMUS("../assets/music/battlefields.mp3");
+    if (!music) {
+        std::cerr << "Failed to load music: " << Mix_GetError() << std::endl;
+    } else {
+        route.setBgMusic(music);
+    }
 
     ButtonStyleConfig styleBtn;
     styleBtn.borderColor = {0, 0, 0, 0};

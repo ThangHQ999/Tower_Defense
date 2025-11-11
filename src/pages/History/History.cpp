@@ -79,14 +79,13 @@ History::History(Route& route)
     }
 
     // Load music
-    bgMusic = Mix_LoadMUS("../assets/music/a.mp3");
-    if (!bgMusic) {
+    Mix_Music* music = Mix_LoadMUS("../assets/music/history.mp3");
+    if (!music) {
         std::cerr << "Failed to load music: " << Mix_GetError() << std::endl;
+    } else {
+        route.setBgMusic(music);
     }
-    else {
-        Mix_PlayMusic(bgMusic, -1); // loop nhạc
-    }
-
+    
     // Load lịch sử từ file
     loadHistoryFromFile("../assets/data/history.txt");
 

@@ -21,8 +21,6 @@ public:
     GameState();
     void setResult(GameResult newResult);
     GameResult getResult() const;
-    bool isWin() const;
-    bool isLose() const;
     void pause();
     void setPaused(bool state);
     bool isPaused() const;

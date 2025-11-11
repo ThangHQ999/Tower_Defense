@@ -4,8 +4,9 @@
 #include <string>
 #include <functional>
 #include <ui/Button.hpp>
+#include <types/Text.hpp>
 
-struct ModalStyleConfig {
+struct ModalStyleConfig { // giống như là css phiên bản c++ shoppe
     SDL_Color bgColor;
     SDL_Color backdropColor;
 };
@@ -27,6 +28,16 @@ public:
     void setText(const std::string& newMessage);
     const std::string& getText() const;
     void addButton(Button* button);
+    void addTextLine(TextLine textLine);
+    void clearTextLines() {
+        for (auto& textLine : textLines) {
+            if (textLine.texture) {
+                SDL_DestroyTexture(textLine.texture);
+                textLine.texture = nullptr;
+            }
+        }
+        textLines.clear();
+    }
     
 private:
     SDL_Texture* backgroundTexture = nullptr;
@@ -46,4 +57,6 @@ private:
 
     // Các nút trong modal
     std::vector<Button*> buttons;
+    // Các text trong modal
+    std::vector<TextLine> textLines;
 };

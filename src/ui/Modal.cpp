@@ -120,6 +120,10 @@ void Modal::render() {
         };
         SDL_RenderCopy(renderer, messageTexture, nullptr, &dstRect);
     }
+    
+    for (auto text: textLines) {
+        SDL_RenderCopy(renderer, text.texture, nullptr, &text.rect);
+    }
 
     // Nút đóng
     if (hasCloseButton && closeButton) {
@@ -173,4 +177,8 @@ const std::string& Modal::getText() const {
 
 void Modal::addButton(Button* button) {
     buttons.push_back(button);
+}
+
+void Modal::addTextLine(TextLine textLine) {
+    textLines.push_back(textLine);
 }

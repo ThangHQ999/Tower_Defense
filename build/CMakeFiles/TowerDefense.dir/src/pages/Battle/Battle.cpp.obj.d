@@ -312,6 +312,7 @@ CMakeFiles/TowerDefense.dir/src/pages/Battle/Battle.cpp.obj: \
  C:/Users/Admin/TowerDefense2/include/SDL2/SDL.h \
  C:/Users/Admin/TowerDefense2/include/SDL2/SDL_ttf.h \
  C:/Users/Admin/TowerDefense2/include/route/Route.hpp \
+ C:/Users/Admin/TowerDefense2/include/SDL2/SDL_mixer.h \
  C:/msys64/ucrt64/include/c++/15.2.0/map \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tree.h \
  C:/msys64/ucrt64/include/c++/15.2.0/ext/aligned_buffer.h \
@@ -340,7 +341,6 @@ CMakeFiles/TowerDefense.dir/src/pages/Battle/Battle.cpp.obj: \
  C:/msys64/ucrt64/include/string.h \
  C:/msys64/ucrt64/include/sec_api/string_s.h \
  C:/Users/Admin/TowerDefense2/include/tower/Arrow.hpp \
- C:/Users/Admin/TowerDefense2/include/SDL2/SDL_mixer.h \
  C:/Users/Admin/TowerDefense2/include/enemy/Enemy.hpp \
  C:/Users/Admin/TowerDefense2/include/tower/ArrowManager.hpp \
  C:/Users/Admin/TowerDefense2/include/core/Map.hpp \
@@ -370,6 +370,8 @@ CMakeFiles/TowerDefense.dir/src/pages/Battle/Battle.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/uniform_int_dist.h \
  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_algorithm_defs.h \
  C:/Users/Admin/TowerDefense2/include/ui/Modal.hpp \
+ C:/Users/Admin/TowerDefense2/include/types/Text.hpp \
+ C:/Users/Admin/TowerDefense2/include/SDL2/SDL_render.h \
  C:/Users/Admin/TowerDefense2/include/pages/Battlefields.hpp \
  C:/msys64/ucrt64/include/c++/15.2.0/fstream \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/codecvt.h \

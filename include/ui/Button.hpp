@@ -6,7 +6,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
-struct ButtonStyleConfig {
+struct ButtonStyleConfig { // giống như là css phiên bản c++ shoppe
     SDL_Color borderColor = {0, 0, 0, 255};
     SDL_Color textColor = {255, 255, 255, 255};
     SDL_Color bgColor = {0, 0, 255, 255};

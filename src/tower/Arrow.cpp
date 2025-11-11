@@ -40,6 +40,7 @@ void Arrow::update(float deltaTime) {
     float dy = static_cast<float>(enemyPos.y) - position.y;
     float dist = std::sqrt(dx * dx + dy * dy);
 
+    // Va chạm giữa mũi tên và địch 
     if (dist < 20.0f) { // Khoảng cách va chạm
         if (hitSound) {
             Mix_PlayChannel(-1, hitSound, 0);

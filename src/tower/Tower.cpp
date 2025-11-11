@@ -40,6 +40,7 @@ bool Tower::isEnemyInRange(Enemy* enemy) const {
 void Tower::update(float deltaTime, std::vector<Enemy*>& enemies, ArrowManager* arrowManager) {
     timeSinceLastShot += deltaTime;
 
+    // Kiểm tra các điều kiện để quyết định xem có bắn mũi tên ra không
     if (timeSinceLastShot >= cooldown) {
         for (auto* enemy : enemies) {
             if (!enemy->isDead() && isEnemyInRange(enemy)) {

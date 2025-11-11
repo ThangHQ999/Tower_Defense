@@ -196,6 +196,9 @@ CMakeFiles/TowerDefense.dir/src/route/Route.cpp.obj: \
  C:/Users/Admin/TowerDefense2/include/SDL2/SDL_system.h \
  C:/Users/Admin/TowerDefense2/include/SDL2/SDL_timer.h \
  C:/Users/Admin/TowerDefense2/include/SDL2/SDL_version.h \
+ C:/Users/Admin/TowerDefense2/include/SDL2/SDL_ttf.h \
+ C:/Users/Admin/TowerDefense2/include/SDL2/SDL.h \
+ C:/Users/Admin/TowerDefense2/include/SDL2/SDL_mixer.h \
  C:/msys64/ucrt64/include/c++/15.2.0/iostream \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
  C:/msys64/ucrt64/include/c++/15.2.0/ostream \
@@ -321,8 +324,6 @@ CMakeFiles/TowerDefense.dir/src/route/Route.cpp.obj: \
  C:/Users/Admin/TowerDefense2/include/pages/Page.hpp \
  C:/Users/Admin/TowerDefense2/include/pages/Home.hpp \
  C:/Users/Admin/TowerDefense2/include/SDL2/SDL_image.h \
- C:/Users/Admin/TowerDefense2/include/SDL2/SDL.h \
- C:/Users/Admin/TowerDefense2/include/SDL2/SDL_mixer.h \
  C:/Users/Admin/TowerDefense2/include/ui/Button.hpp \
  C:/msys64/ucrt64/include/c++/15.2.0/functional \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_function.h \
@@ -338,5 +339,4 @@ CMakeFiles/TowerDefense.dir/src/route/Route.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/vector.tcc \
  C:/msys64/ucrt64/include/c++/15.2.0/array \
  C:/msys64/ucrt64/include/c++/15.2.0/compare \
- C:/Users/Admin/TowerDefense2/include/SDL2/SDL_ttf.h \
  C:/Users/Admin/TowerDefense2/include/pages/Battlefields.hpp

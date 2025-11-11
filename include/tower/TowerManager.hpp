@@ -29,6 +29,7 @@ public:
     void handleEvent(SDL_Event& e);
     // void update();
     void render();
+    void renderTowerButton();
 
     // Loại tháp đã chọn để đặt
     int getSelectedTower() const;
